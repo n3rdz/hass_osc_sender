@@ -24,3 +24,25 @@ Add-on options (editable in UI)
 Notes
 - Host network is enabled by default in config.json so OSC UDP packets are sent from host network.
 - Ensure port used by add-on HTTP API (default 5000) is not blocked.
+
+
+
+
+Add this to your Configuration.yaml
+
+
+
+#OSC
+rest_command:
+  send_osc_message:
+    url: "http://homeassistant.local:5000/send"
+    method: POST
+    headers:
+      Content-Type: application/json
+    payload: >
+      {
+        "ip": "{{ ip }}",
+        "port": {{ port }},
+        "address": "{{ address }}",
+        "value": "{{ value }}"
+      }
