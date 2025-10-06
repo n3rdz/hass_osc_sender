@@ -1,0 +1,4 @@
+{
+  "title": "OSC Sender",
+  "description": "Send OSC messages from Home Assistant via HTTP API"
+}
