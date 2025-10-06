@@ -11,18 +11,13 @@ arch:
 startup: "application"
 boot: "auto"
 host_network: true
-volumes:
-  - "config:/config:ro"
 options:
   default_ip: "127.0.0.1"
   default_port: 8000
   default_address: "/test"
   default_value: "1"
-  http_port: 5000
 schema:
   default_ip: str
   default_port: int
   default_address: str
   default_value: str
-  http_port: int
-image: "ghcr.io/home-assistant/{arch}-base:latest"
