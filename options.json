@@ -1,0 +1,7 @@
+{
+  "default_ip": "192.168.10.125",
+  "default_port": 3250,
+  "default_address": "/control/test/play",
+  "default_value": "1",
+  "http_port": 5000
+}
