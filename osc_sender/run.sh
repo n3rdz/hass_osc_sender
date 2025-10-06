@@ -1,36 +1,21 @@
 #!/usr/bin/with-contenv bashio
-# shellcheck shell=bash
-
 set -e
 
-# Load add-on options
-CONFIG_PATH=/data/options.json
+echo "Starte OSC Sender Add-on"
 
-# Default values (will be overridden by options.json if present)
-DEFAULT_IP="127.0.0.1"
-DEFAULT_PORT=8000
-DEFAULT_ADDRESS="/test"
-DEFAULT_VALUE="1"
-HTTP_PORT=5000
+DEFAULT_IP=$(bashio::config 'default_ip' || echo "127.0.0.1")
+DEFAULT_PORT=$(bashio::config 'default_port' || echo "8000")
+DEFAULT_ADDRESS=$(bashio::config 'default_address' || echo "/test")
+DEFAULT_VALUE=$(bashio::config 'default_value' || echo "1")
+HTTP_PORT=$(bashio::config 'http_port' || echo "5000")
 
-if [ -f "$CONFIG_PATH" ]; then
-  DEFAULT_IP=$(jq -r '.default_ip // "127.0.0.1"' "$CONFIG_PATH")
-  DEFAULT_PORT=$(jq -r '.default_port // 8000' "$CONFIG_PATH")
-  DEFAULT_ADDRESS=$(jq -r '.default_address // "/test"' "$CONFIG_PATH")
-  DEFAULT_VALUE=$(jq -r '.default_value // "1"' "$CONFIG_PATH")
-  HTTP_PORT=$(jq -r '.http_port // 5000' "$CONFIG_PATH")
-fi
+echo "Ziel: ${DEFAULT_IP}:${DEFAULT_PORT}  Adresse: ${DEFAULT_ADDRESS}  Wert: ${DEFAULT_VALUE}"
+echo "Starte HTTP API auf Port ${HTTP_PORT}"
 
-echo "Starting OSC Sender Add-on"
-echo "Default target: ${DEFAULT_IP}:${DEFAULT_PORT}  address=${DEFAULT_ADDRESS} value=${DEFAULT_VALUE}"
-echo "Starting HTTP API on port ${HTTP_PORT}"
-
-# Export env so webserver can pick them up
 export OSC_DEFAULT_IP="${DEFAULT_IP}"
 export OSC_DEFAULT_PORT="${DEFAULT_PORT}"
 export OSC_DEFAULT_ADDRESS="${DEFAULT_ADDRESS}"
 export OSC_DEFAULT_VALUE="${DEFAULT_VALUE}"
 export OSC_HTTP_PORT="${HTTP_PORT}"
 
-# Start webserver (using waitress for production readiness)
 exec waitress-serve --listen=0.0.0.0:${HTTP_PORT} /usr/bin/webserver:app
