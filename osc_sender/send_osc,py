@@ -1,10 +1,4 @@
 #!/usr/bin/env python3
-"""
-CLI helper to send a single OSC message.
-Usage:
-  send_osc.py <ip> <port> <address> [value]
-If value omitted, an empty message is sent.
-"""
 import sys
 from pythonosc import udp_client
 
@@ -18,7 +12,6 @@ def main():
     address = sys.argv[3]
     value = None
     if len(sys.argv) > 4:
-        # If multiple additional args, send them as list
         if len(sys.argv) == 5:
             value = sys.argv[4]
         else:
@@ -28,7 +21,7 @@ def main():
         client.send_message(address, [])
     else:
         client.send_message(address, value)
-    print("OSC message sent to {}:{} {} {}".format(ip, port, address, value if value is not None else ""))
+    print(f"OSC message sent to {ip}:{port} {address} {value if value else ''}")
 
 if __name__ == "__main__":
     main()
