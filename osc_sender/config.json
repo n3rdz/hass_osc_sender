@@ -13,8 +13,8 @@
   "startup": "application",
   "boot": "auto",
   "host_network": true,
-  "map": [
-    "config"
+  "volumes": [
+    "config:/config:ro"
   ],
   "options": {
     "default_ip": "127.0.0.1",
